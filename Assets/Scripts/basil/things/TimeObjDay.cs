@@ -6,43 +6,135 @@ using UnityEngine;
 
 using basil.util;
 
+
+//The things that make up a timescape...
+// a dictionary key of DateTime value of timeObj s
+
+// timeObj
+
+
 namespace basil.things
 {
-    //an object class representing a Minute 
-    public class TimeObjDay : TimeObj
+    public class TimeObjDay  
     {
-        public TimeObjDay(DateTime dt) : base(dt) {
+    
+        public TimeObj dictValue = null;
+        public DateTime dt;
+        public GameObject dGo = null;
+        public GameObject dHolderGo;
+        public GameObject dFormGo;
+        public DayHolderBe dHolderB;
+        public MinuteFormBe dFormB;
+        Dictionary<int, TimeObjHour> hours;
+        // Dictionary<DateTime, TimeObjHour> hours;
 
+        
+        
+        
+        
+        
+        
+        
+        public TimeObjDay(DateTime _dt, Transform parent, TimeObj _dictValue, bool cascade) 
+        {
+    
+            Transform _t = Transform.Instantiate(MessageMgr.Instance.day,
+                                EtcMgr.getPosition(_dt),
+                                EtcMgr.getRotationDay(_dt),
+                                MessageMgr.Instance.gameRoot  ) as Transform;
+            dictValue = _dictValue;
+            dGo = _t.gameObject;
+            dictValue.Day = dGo;
+            dGo.SetActive(true);
+            dictValue.isDay = true;
+            this.dt = _dt;
+            dGo.name = "D" + dt.Day;         
+            dHolderGo = dGo.GetFirstChild();                   
+            dHolderGo.layer = 11;    
+            dHolderB = dGo.GetComponent<DayHolderBe>();
+            dHolderB.setDateTime(_dt);
+            dHolderB.Register(dictValue);
+            
+            if(cascade) InflateMyHours(true);
         }
 
-        //[SerializeField] DateTime m_Date;
-        //[SerializeField] double m_Secs;
-        //[SerializeField] GameObject m_GameObject;
-        //[SerializeField] Transform m_Transform;
-        //[SerializeField] ArrayList m_Events;
-        //[SerializeField] TimeObj m_Children;
 
 
-        void template()
+
+        public void
+InflateMyHours(bool cascade)
         {
-            switch (myTimeType)
+            InflateHours(dt, dGo.transform, dictValue, cascade );
+        }
+
+
+
+        //this option makes minutes and keeps them in one timeObject's local dictionary
+        public void 
+InflateHours(DateTime _dt, Transform _parent, TimeObj _dictValue, bool cascade)
+        {
+
+            hours = new Dictionary<int, TimeObjHour>(); //todo rid of this
+            //hours = new Dictionary<DateTime, TimeObjHour>(); //todo rid of this
+
+
+            for (int i = 0; i < 24; ++i)
             {
-                case (TimeType.SecondType):
-                    
-                    break;
-                case (TimeType.MinuteType):
+                DateTime ndt = DateTime.Today.AddHours(i);
+                TimeObjHour toh = new TimeObjHour(ndt.Neuter(), dGo.transform, dictValue, cascade);
+                toh.hGo.SetActive(true);
+                //hours.Add(ndt, toh);
+                hours.Add(i, toh);
 
-                    break;
-                case (TimeType.HourType):
-                    
-                    break;
-                case (TimeType.DayType):
+            }
+      
+           //speak to the new 24 hours    
+            dGo.BroadcastMessage("ShowMe", this);
+        }     
 
-                    break;
+
+
+
+
+
+
+
+
+        //this option inflates the appropriate timeobj 
+        public static void 
+InflateHour(DateTime _dt, Transform _parent, TimeObj _dictValue)
+        {
+            //The toh should add itself to the dict, MakeTime will have to stop doing that
+            TimeObjHour toh = new TimeObjHour(_dt, _parent, _dictValue, false);
+        }
+
+
+        public void
+DeflatePrior()
+        {
+            DateTime cloned = dt.AddHours(-1).Neuter();
+            TimeObj prior = MakeTime.timeObjDictionary[cloned];
+            prior.toh.DeflateMyMinutes();
+        }
+
+
+        public void 
+DeflateMyHours()
+        {
+            if (hours != null)
+            {
+            
+                for (int i = 0; i < 24; ++i)
+                {
+                        dictValue.isHour = false;
+                    GameObject go = hours[i].hGo;
+                    Transform.Destroy(hours[i].hGo);
+                       
+                }
+              hours = null;
             }
         }
 
-
-
-    }//class
-}//name
+        
+    }
+}  

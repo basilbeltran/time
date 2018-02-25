@@ -1,17 +1,26 @@
 using UnityEngine;
 using System.Collections;
 
-public class NewMonoBehaviour : MonoBehaviour
+[CreateAssetMenu]
+public class so1 : ScriptableObject
 {
-	// Use this for initialization
-	void Start()
-	{
 
-	}
 
-	// Update is called once per frame
-	void Update()
+     void OnEnable()
+    {
+        
+    }
+
+
+	void OnDisable()
 	{
 			
 	}
+    
+    
+     void OnDestroy()
+    {
+
+    }
+    
 }

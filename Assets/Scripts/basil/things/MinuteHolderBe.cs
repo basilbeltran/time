@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using basil.patterns;
 using basil.things;
@@ -10,28 +11,27 @@ using UnityEngine.Playables;
 
 namespace basil.util
 {
-
-    public class Me : MonoBehaviour, ISignalListener
+//the Holder and Form duo help to animate from a steady position ie: (0,0,0) 
+    public class MinuteHolderBe : MonoBehaviour, ISignalListener
     {
 
         public  bool dump = false;
+        public DateTime mytime;
+        
+        
         private bool moved = false;
         private bool colorChanged = false;
         public GameObject shape;
-        public MeCanDoIt doit;
-        private Me me;
-        private TimeObj timeNode = null;
-        
-        
+        public MinuteFormBe doit;
+        private MinuteHolderBe me;
+        public TimeObj timeObject = null;
+        public TimeObjMinute tom;
         public float red;
         public float green;
         public float blue;
         public float alpha;
         
-        public void Register(TimeObj to)
-        {
-            timeNode = to;
-        }
+
         
         private void Awake()
         {
@@ -40,9 +40,9 @@ namespace basil.util
 
         void Start()
         {
-            me = GetComponent<Me>();
+            me = GetComponent<MinuteHolderBe>();
             shape = transform.GetChild(0).gameObject;
-            doit = shape.GetComponent<MeCanDoIt>();
+            doit = shape.GetComponent<MinuteFormBe>();
             //if (dump) gameObject.Dump();
         }
 
@@ -51,60 +51,124 @@ namespace basil.util
             
         }
 
-            //doit.ColorIt(red, green, blue, alpha);
-            //SetColorChildren(red, green, blue, alpha);
+        public void Register(TimeObj to)
+        {
+            timeObject = to;
+        }
 
-        //void OnMouseDown() { U.Log("",gameObject); }
-        //void OnMouseUp()   { U.Log("", gameObject); }
-        //void OnMouseDown() { doit.call.explode(); }
-        //void OnMouseUp() { doit.call.implode(); }
+        public void Init(TimeObjMinute _tom)
+        {
+            tom = _tom;
+            U.Log("AAAAAAAAAAA " + tom.ToString());
+        }
+
+        public void setDateTime(DateTime _dt)
+        {
+
+            this.mytime = _dt;
+        }
         
+        //very hacky as this minute isnt guaranteed to exist
+        //  ////if(U.pThisVeryMoment.Invoke(timeObject.m_Date)) timeObject.OnSecond(dt);
+
+        void OnSecond(DateTime dt)
+        {
+            //// limit log message to the first minute holder instance
+            
+            
+            
+            if (  U.pDTzeroSec.Invoke( dt  ) && U.pDTthisVeryMoment.Invoke(mytime )) timeObject.OnSecond(mytime);
+            
+            try
+            {
+            // the time must be "on the minute" and match 
+            if (  U.pDTzeroSec.Invoke( dt  ) && U.pDTthisVeryMoment.Invoke(mytime )) test(dt);
+
+                 
+            }
+            catch (Exception ex)
+            {
+                U.Log("  " + ex.ToString());
+            }
+
+        }
+
+
+        void test(DateTime _dt)
+        {
+
+        U.Log(" mytime TVM is " +     U.pDTthisVeryMoment.Invoke(mytime).ToString() 
+       + "  \n  pDTisDay is " +      U.pDTisDay.Invoke(_dt).ToString() 
+       + "  \n pDTtoday is " +      U.pDTtoday.Invoke(_dt).ToString()
+       + "  \n pDTisHour is " +     U.pDTisHour.Invoke(_dt).ToString() 
+       + "  \n  pDTzeroSec is " +    U.pDTzeroSec.Invoke(_dt).ToString() 
+       + "  \n  pDTminute is " +     U.pDTminute.Invoke(_dt).ToString() 
+       + "  \n  pDThour is " +     U.pDThour.Invoke(_dt).ToString()        
+       + "  \n  pDTsecond is " +     U.pDTsecond.Invoke(_dt).ToString()  
+       + "  \n   pDTthisVeryMoment is " +     U.pDTthisVeryMoment.Invoke(_dt).ToString() 
+       + "  \n   mytime TVM is " +     U.pDTthisVeryMoment.Invoke(mytime).ToString()     
+       + "  \n   fDTmatchDate now is " +  U.fDTmatchDate.Invoke(_dt, DateTime.Now ).ToString() 
+       + "  \n   fDTmatchDate now Neuter " +  U.fDTmatchDate.Invoke(_dt, DateTime.Now.Neuter() ).ToString() 
+       + "  \n   fDTmatch AddSeconds(2) " +       U.fDTmatchSecond.Invoke(_dt, DateTime.Now.AddSeconds(2).Neuter() ).ToString()
+       + "  \n   fDTmatch AddSeconds(-2)  is " +  U.fDTmatchSecond.Invoke(_dt, DateTime.Now.AddSeconds(-2).Neuter() ).ToString() 
+       + "  \n   fDTmatchSecond now Neuter  " +   U.fDTmatchSecond.Invoke(_dt, DateTime.Now.Neuter()).ToString()
+      
+  );
+       
+
+        }
         
-        //void OnMouseEnter() { U.Log("", gameObject); }
-        //void OnMouseExit() { U.Log( gameObject); }
-       //void OnMouseEnter() { me.doit.ColorIt(.5f, .5f, .5f, .5f); }
-        //void OnMouseExit() { me.doit.Natural(); }
+
+        void OnMouseDown()  { doit.call.explode(); }
+        void OnMouseUp()    { doit.call.implode(); }
+        
 
 
         void OnMouseEnter()   // from the minute, not second
         {
-            U.Log(" Mouse Enter " + transform.GetChild(0).name );
-
-            if (transform.GetChild(0).name == "minuteShape")
-            {   
-                timeNode.InflateSeconds();
-            }
-           
+            if(dump ) U.Log(" Mouse Enter " + transform.GetChild(0).name );
+ 
+                try
+                {
+                    timeObject.tom.InflateMySeconds();
+                }
+                catch (System.Exception ex)
+                {
+                    U.Log(ex.ToString());
+                }           
           
         }
         
         void OnMouseExit() { 
-            U.Log(" Mouse EXit " + transform.GetChild(0).name );
+           if(dump) U.Log(" Mouse Exit " + transform.GetChild(0).name );
                          
-                         
-            if (transform.GetChild(0).name == "minuteShape")
-            {  //ur a min
-                timeNode.DeflateSeconds();
+                        
+            try
+            {
+                timeObject.tom.DeflateMySeconds();
+            }
+            catch (Exception ex)
+            {
+                U.Log(ex.ToString());
             }
 
-            ////HideChildren(); 
-            //doit.Natural();
-            //SetColor(.5f, .5f, .5f, .5f);  
+            }
             
-            }
+            
 
-        void OnMouseDown() { U.LData("", gameObject); }
-        void OnMouseUp() { U.LData("", gameObject); }
- 
         void OnTriggerEnter(Collider other)
         {
             ShowChildren();
         }
 
+
+
          void OnTriggerStay(Collider other)
         {
 
         }
+
+
 
          void OnTriggerExit(Collider other)
         {
@@ -127,7 +191,7 @@ namespace basil.util
         }
 
 
-
+        
 
         //all scene objects under management
         public void Yell(string method, System.Object o)
@@ -141,26 +205,6 @@ namespace basil.util
             transform.parent.BroadcastMessage(method, o);
         }
 
-        ////talk to yourself
-        //public void Consider(System.Object o)
-        //{
-        //    SignalChain _chain = new SignalChain(transform);
-        //    _chain.Send(o);
-        //}
-
-        ////no, dont wake sleeping kids
-        //public void Whisper(System.Object o) 
-        //{
-        //    SignalChain _chain = new SignalChain(transform);
-        //    _chain.Broadcast(o);
-        //}
-
-        ////ok... wake your sleeping kids
-        //public void Speak(System.Object o)
-        //{
-        //    SignalChain _chain = new SignalChain(transform);
-        //    _chain.DeepBroadcast(o);
-        //}
 
         public void ToggleActive()
         {
@@ -170,14 +214,7 @@ namespace basil.util
 
         public void ShowMe()
         {
-           U.Log( "" + " Showing " + gameObject.name );
-
-            gameObject.SetActive(true);
-            doit = shape.GetComponent<MeCanDoIt>();
-            doit.gameObject.SetActive(true);
-    
-            doit.ShowMe();
-            doit.ColorIt(234,234,234,34);
+ 
         }
 
         public void HideMe()
@@ -190,7 +227,7 @@ namespace basil.util
         public void ShowChildren()
         {
             //if (dump) gameObject.Dump();
-            foreach (Me m in U.GetComponentsInDirectChildren<Me>(gameObject))
+            foreach (MinuteHolderBe m in U.GetComponentsInDirectChildren<MinuteHolderBe>(gameObject))
             {
                 m.ShowMe();
             }
@@ -199,7 +236,7 @@ namespace basil.util
 
         public void HideChildren()
         {
-            foreach (Me m in U.GetComponentsInDirectChildren<Me>(gameObject))
+            foreach (MinuteHolderBe m in U.GetComponentsInDirectChildren<MinuteHolderBe>(gameObject))
             {
                 m.HideMe(); 
             }
@@ -208,7 +245,7 @@ namespace basil.util
         public GameObject SetColor(float red, float green, float blue, float alpha)
         {
             
-            foreach (Me m in U.GetComponentsInDirectChildren<Me>(gameObject))
+            foreach (MinuteHolderBe m in U.GetComponentsInDirectChildren<MinuteHolderBe>(gameObject))
             {
                 m.ShowMe();
                 m.doit.ColorIt(red, green, blue, alpha);
@@ -219,7 +256,7 @@ namespace basil.util
 
         public  void SetColorChildren(float red, float green, float blue,  float alpha)
         {
-            foreach (Me m in U.GetComponentsInDirectChildren<Me>(gameObject))
+            foreach (MinuteHolderBe m in U.GetComponentsInDirectChildren<MinuteHolderBe>(gameObject))
             {
 
                 this.red = red;

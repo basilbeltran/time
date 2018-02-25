@@ -12,16 +12,16 @@ using UnityEngine.Playables;
 namespace basil.util
 {
 //the Holder and Form duo help to animate from a steady position ie: (0,0,0) 
-    public class HourHolderBe : MonoBehaviour, ISignalListener
+    public class DayHolderBe : MonoBehaviour, ISignalListener
     {
 
         public  bool dump = true;
         public DateTime mytime;
         public GameObject shape;
-        public HourFormBe doit;
-        private HourHolderBe me;
+        public DayFormBe doit;
+        private DayHolderBe me;
         public TimeObj timeObject = null;
-        public TimeObjHour toh;
+        public TimeObjDay tod;
 
         
 
@@ -33,9 +33,9 @@ namespace basil.util
 
         void Start()
         {
-            me = GetComponent<HourHolderBe>();
+            me = GetComponent<DayHolderBe>();
             shape = transform.GetChild(0).gameObject;
-            doit = shape.GetComponent<HourFormBe>();
+            doit = shape.GetComponent<DayFormBe>();
             //if (dump) gameObject.Dump();
         }
 
@@ -49,10 +49,10 @@ namespace basil.util
             timeObject = to;
         }
 
-        public void Init(TimeObjHour _toh)
+        public void Init(TimeObjDay _tod)
         {
-            toh = _toh;
-            U.Log("AAAAAAAAAAA " + toh.ToString());
+            tod = _tod;
+            U.Log("AAAAAAAAAAA " + tod.ToString());
         }
 
         public void setDateTime(DateTime _dt)
@@ -128,13 +128,11 @@ namespace basil.util
 
         public void ShowMe()
         {
-           U.Log( "" + "MHB Showing " + gameObject.name );
+          if (dump) U.Log( "" + "DHB Showing " + gameObject.name );
 
             gameObject.SetActive(true);
-            doit.gameObject.SetActive(true);
-    
+            doit.gameObject.SetActive(true);    
             doit.ShowMe();
-            doit.ColorIt(234,234,234,34);
         }
 
         public void HideMe()
@@ -147,7 +145,7 @@ namespace basil.util
         public void ShowChildren()
         {
             //if (dump) gameObject.Dump();
-            foreach (HourHolderBe m in U.GetComponentsInDirectChildren<HourHolderBe>(gameObject))
+            foreach (DayHolderBe m in U.GetComponentsInDirectChildren<DayHolderBe>(gameObject))
             {
                 m.ShowMe();
             }
@@ -156,7 +154,7 @@ namespace basil.util
 
         public void HideChildren()
         {
-            foreach (HourHolderBe m in U.GetComponentsInDirectChildren<HourHolderBe>(gameObject))
+            foreach (DayHolderBe m in U.GetComponentsInDirectChildren<DayHolderBe>(gameObject))
             {
                 m.HideMe(); 
             }
@@ -165,7 +163,7 @@ namespace basil.util
         public GameObject SetColor(float red, float green, float blue, float alpha)
         {
             
-            foreach (HourHolderBe m in U.GetComponentsInDirectChildren<HourHolderBe>(gameObject))
+            foreach (DayHolderBe m in U.GetComponentsInDirectChildren<DayHolderBe>(gameObject))
             {
                 m.ShowMe();
                 m.doit.ColorIt(red, green, blue, alpha);
@@ -176,7 +174,7 @@ namespace basil.util
 
         public  void SetColorChildren(float red, float green, float blue,  float alpha)
         {
-            foreach (HourHolderBe m in U.GetComponentsInDirectChildren<HourHolderBe>(gameObject))
+            foreach (DayHolderBe m in U.GetComponentsInDirectChildren<DayHolderBe>(gameObject))
             {
                 m.ShowMe();
                 m.doit.ColorIt(red, green, blue, alpha);

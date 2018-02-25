@@ -1,13 +1,18 @@
-using UnityEngine; using UnityEditor; using System.IO; using UnityEngine.SceneManagement;
+using UnityEngine; 
+using UnityEditor; 
+using System.IO; 
+using UnityEngine.SceneManagement;
 
-public class CWindow : EditorWindow { // script text private string scriptText = "UnityEngine.Debug.Log(\"Hello World\");" ;
+public class CWindow : EditorWindow { 
+// script text 
+private string scriptText = "UnityEngine.Debug.Log(\"Hello World\");" ;
 
      // reusable script file to store C# 
      string scriptName = "CWindowTemp";
-     //the new script to execute
-     private MonoBehaviour mb ;
-     //a root object where we park the temporary MonoBehaviour component
-     private GameObject go;
+
+    string newFileName;
+    string tickleName;
+    
      // position of scroll view
      private Vector2 scrollPos;
      void OnGUI()
@@ -28,7 +33,7 @@ public class CWindow : EditorWindow { // script text private string scriptText =
          // disable the GUI if the script text is empty
              GUI.enabled = guiEnabled && !string.IsNullOrEmpty(scriptText);
          // show the execute button
-         if (GUILayout.Button("Run"))
+         if (GUILayout.Button("random"))
          {
              UpdateScript(scriptText);
              // restore the GUI
@@ -45,42 +50,104 @@ public class CWindow : EditorWindow { // script text private string scriptText =
          window.Show();
          window.Focus();
      }
+     
+     
      public void UpdateScript(string scriptText)
      {
+
+         
          //This is the directory where the file will be put
          //string directoryLocation = Application.dataPath + System.IO.Path.PathSeparator;
          string directoryLocation = Application.dataPath + "/Scripts/";
-         //Clears the file for re-writing
-         File.WriteAllText(directoryLocation + "CWindowTemp.cs", string.Empty);
+
+         // a new file to help the editor refresh assets - didn't work because of the 
+         System.Random sr = new System.Random();
+         int rNum = sr.Next();
+         string fileBase = scriptName;//+ rNum.ToString();
+          newFileName = directoryLocation + fileBase + ".cs";
+          
+
+
+          //Clears the file for re-writing
+         File.WriteAllText(newFileName, string.Empty);
          //This writes the new file but it will be empty
-         using (StreamWriter newWriter = new StreamWriter(directoryLocation + "CWindowTemp.cs", true))
+         using (StreamWriter newWriter = new StreamWriter(newFileName, true))
          {
              //The rest of this writes what you want your file to contain
-             newWriter.WriteLine(string.Format(scriptFormat, scriptText));
+             newWriter.WriteLine(string.Format(scriptFormat, scriptText, fileBase));  
          }
-         //Tells us the class is done writing
-         Debug.Log(Application.dataPath + "  Done!");
-         //Refresh all the assets so the script loads properly
-         AssetDatabase.Refresh();
-         // Get the root object 
-         go = SceneManager.GetActiveScene().GetRootGameObjects()[0];
+
+        forceRecompile(); // good luck
+
+        AssetDatabase.ImportAsset( newFileName, ImportAssetOptions.ForceUpdate );
+
+        //Tells us the class is done writing
+         Debug.Log(newFileName + "  Done!");
          
-         mb = go.AddComponent<CWindowTemp>();
-         mb.hideFlags = HideFlags.HideInInspector;
-         //enabling the behaviour will trigger the OnEnabled method with our code
-         mb.enabled = true;
-         mb.enabled = false; 
+         tickleName = directoryLocation + fileBase +rNum.ToString()+ ".cs";
+         File.WriteAllText(tickleName, string.Empty);
+
+         
+         
+        GameObject go = GameObject.FindGameObjectWithTag("static");
+
+         MonoBehaviour mb = go.AddComponent<CWindowTemp>();
+         //mb.hideFlags = HideFlags.HideInInspector;
+         //mb.enabled = true;
+         //mb.enabled = false; 
          DestroyImmediate(go.GetComponent<CWindowTemp>());
+
+
+        //File.Delete(tickleName);
+
      }
+
+     void forceRecompile()
+    {
+        AssetDatabase.StartAssetEditing();
+
+            MonoScript script = AssetDatabase.LoadAssetAtPath(newFileName, typeof(MonoScript)) as MonoScript;
+            if (script != null)
+            {
+                AssetDatabase.ImportAsset(newFileName);
+            }
+        
+        AssetDatabase.StopAssetEditing();
+    }
+
+
      // here is a template for your scripting... add or delete as needed
      static readonly string scriptFormat = @"
 
-using System; using System.Reflection; using System.Runtime.CompilerServices; using System.Collections; using System.Collections.Generic; using System.Text; using System.Linq;
+using System; using System.Reflection; 
+using System.Runtime.CompilerServices; 
+using System.Collections; 
+using System.Collections.Generic; 
+using System.Text; using System.Linq;
 
-using UnityEngine; using UnityEditor; using UnityEngine.SceneManagement;
+using UnityEngine; 
+using UnityEditor; 
+using UnityEngine.SceneManagement;
 
 using basil.util;
+using basil.things;
 
-[ExecuteInEditMode] public class CWindowTemp : MonoBehaviour {{ public void OnEnable() {{ // user code goes here {0}; }} }}";
+[ExecuteInEditMode] 
+public class  {1} : MonoBehaviour 
+
+{{ 
+
+
+    public void OnEnable() 
+    {{ 
+
+            // user code goes here
+            {0}; 
+    }} 
+
+}}";
+
+
+
 
 } 

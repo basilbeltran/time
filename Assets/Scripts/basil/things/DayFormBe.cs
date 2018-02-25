@@ -9,7 +9,7 @@ using UnityEngine.Playables;
 using basil.util;
 
 //attached to the minute form, the minute hand of a clock
-public class HourFormBe : BasicBehaviour
+public class DayFormBe : BasicBehaviour
 {
 
     private Color startcolor;
@@ -94,7 +94,7 @@ public class HourFormBe : BasicBehaviour
     
 
 
-    public void ShowMe() { U.Log("" + "MFB Showing " + gameObject.name); }
+    public void ShowMe() { if (dump)U.Log("" + "DFB Showing " + gameObject.name); }
     public void HideMe() { }
   
 }

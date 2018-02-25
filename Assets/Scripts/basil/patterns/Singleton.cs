@@ -1,17 +1,20 @@
-using UnityEngine;
-using System.Collections;
+public class Singleton{
+    private Singleton(){
+        //Class initialization goes here.
+    }
 
-public class NewMonoBehaviour : MonoBehaviour
-{
-	// Use this for initialization
-	void Start()
-	{
+    public void someSingletonMethod(){
+        //Some method that acts on the Singleton.
+    }
 
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-			
-	}
+    private static Singleton _instance;
+    public static Singleton Instance 
+    { 
+        get { 
+            if (_instance == null)
+                _instance = new Singleton();
+            return _instance; 
+        }
+    } 
 }
+

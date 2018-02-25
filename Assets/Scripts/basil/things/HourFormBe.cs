@@ -9,9 +9,9 @@ using UnityEngine.Playables;
 using basil.util;
 
 //attached to the minute form, the minute hand of a clock
-public class MinuteFormBe : BasicBehaviour
+public class HourFormBe : BasicBehaviour
 {
-
+    bool dump = false;
     private Color startcolor;
 
     public Animation mashun;
@@ -94,32 +94,9 @@ public class MinuteFormBe : BasicBehaviour
     
 
 
-    public void ShowMe() { U.Log("" + "MFB Showing " + gameObject.name); }
+    public void ShowMe() { if(dump) U.Log("" + "HFB Showing " + gameObject.name); }
     public void HideMe() { }
-
-
-    
-    
-    void SetMinutesColor(DateTime dt)
-    {
-             // float r= 0, g= 0, b= 0, a = 0;
-
-    
-        if (dt.Second % 2 == 0)
-        {
-
-            ColorIt(1, 1, 1, 1);
-       }
-        else
-        {
-            ColorIt(0, 0, 0, 1);
-
-        }       
-    }
-    
-    
-    
-    
+  
 }
 
 

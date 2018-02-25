@@ -1,9 +1,19 @@
 ﻿using System;
 
 
-	public interface ISignalListener
+	public interface ITimeListener
 	{
-        void OnSignal<Signal>(Signal message);
+  
+        
+        
+        void OnMinute<TimeFly>(TimeFly message);
+
+
+        void OnSecond<TimeFly>(TimeFly message);
+
+    
+        void OnHour<TimeFly>(TimeFly message);
+    
 	}
 
 

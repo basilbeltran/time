@@ -8,9 +8,11 @@ using UnityEngine.Playables;
 
 using basil.util;
 
-public class MeCanDoIt : MonoBehaviour
+//attached to the minute form, the minute hand of a clock
+public class MinuteFormBe : BasicBehaviour
 {
-    public bool dump = true;
+
+    bool dump = false;
 
     private Color startcolor;
 
@@ -19,54 +21,102 @@ public class MeCanDoIt : MonoBehaviour
     public PlayableDirector mao;
     public ActionSet call; // must have definition of called methods
     new Renderer renderer;
-    BehSecond beh;
+    MinuteHolderBe mhb;
 
     void Awake()
     {
-
+        base.SetDump(true);
+        renderer = GetComponent<Renderer>();
+        mhb = transform.parent.GetComponent<MinuteHolderBe>();
+        call = gameObject.AddComponent(typeof(ActionSet)) as ActionSet;
     }
 
 
     void Start()
     {
-        renderer = GetComponent<Renderer>();
-        beh = transform.parent.GetComponent<BehSecond>();
-        call = gameObject.AddComponent(typeof(ActionSet)) as ActionSet;
+
+
     }
 
-    public void SetActive(bool tf)
+        
+
+    private void Update()
     {
-        gameObject.SetActive(tf);
 
     }
     
-            public void ToggleActive()
-        {
-            gameObject.SetActive(!gameObject.activeSelf);
-        }
-
-    //void OnMouseDown()  { U.LData("", gameObject); }
-    //void OnMouseUp()    { U.LData("", gameObject); }
-    //void OnMouseEnter() { U.LData("", gameObject); }
-    //void OnMouseExit()  { U.LData("", gameObject); }
-
-    public void ColorIt(float r, float g, float b, float a){
-        renderer = GetComponent<Renderer>();
-        startcolor = renderer.material.color;
-        //Color c = new Color(.5f, .5f, .5f, .5f);
-        //renderer.material.color = Color.red;
-        renderer.material.color = new Color(r,g,b,a);
-
-    }
-
-    public void Natural()
+        
+        
+    
+    // OnSecond is called from MessageMgr to all children
+    void OnSecond(DateTime dt)
     {
-        renderer.material.color = startcolor;
-    }
 
-    public void ShowMe() { }
+
+
+    }
+    
+    
+        public void ColorForm(Color c)
+    {
+        renderer.material.color = c;
+    }
+    
+
+
+    public void ColorIt(float r, float g, float b, float a)
+    {
+        startcolor = renderer.material.color;
+        renderer.material.color = new Color(r, g, b, a);
+
+    }
+    
+       public void Green()
+    {
+        renderer.material.color = new Color(.3f, .8f  ,.3f, .9f );
+    }
+    
+        public void Blue()
+    {
+        renderer.material.color = new Color(.2f, .2f  ,.9f, .9f );
+    }
+    
+        public void Red()
+    {
+        renderer.material.color = new Color(.9f, .2f  ,.2f, .9f );
+    }
+    
+
+
+    
+
+
+    public void ShowMe() {if(dump) U.Log("" + "MFB Showing " + gameObject.name); }
     public void HideMe() { }
 
+
+    
+    
+    void SetMinutesColor(DateTime dt)
+    {
+             // float r= 0, g= 0, b= 0, a = 0;
+
+    
+        if (dt.Second % 2 == 0)
+        {
+
+            ColorIt(1, 1, 1, 1);
+       }
+        else
+        {
+            ColorIt(0, 0, 0, 1);
+
+        }       
+    }
+    
+    
+    
+    
 }
 
 

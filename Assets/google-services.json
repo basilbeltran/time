@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1004606002604",
+    "firebase_url": "https://basiltime-1516558017313.firebaseio.com",
+    "project_id": "basiltime-1516558017313",
+    "storage_bucket": "basiltime-1516558017313.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004606002604:android:cecd95be0d689a91",
+        "android_client_info": {
+          "package_name": "com.basil.time"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1004606002604-vo1lr1q7obhkg94v7al4fss9mqfck056.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.basil.time",
+            "certificate_hash": "fba992e02301ef7911001332eafea69f767f1bbb"
+          }
+        },
+        {
+          "client_id": "1004606002604-3915lp3kqrdf4gostktiqjqctbvqh0d4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArIt2oC_GGrSIGXS_-TuuQUO28KOBJTEU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1004606002604-3915lp3kqrdf4gostktiqjqctbvqh0d4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
