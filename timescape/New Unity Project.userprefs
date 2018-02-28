@@ -1,0 +1,20 @@
+﻿<Properties StartupConfiguration="{BFD958C4-5209-89E8-D1A0-F25854A4DC74}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/time/MinuteFormBe.cs">
+    <Files>
+      <File FileName="Assets/Scripts/time/TimeObj.cs" Line="6" Column="18" />
+      <File FileName="Assets/Scripts/time/SecondHolderBe.cs" Line="49" Column="1" />
+      <File FileName="Assets/Scripts/time/MinuteHolderBe.cs" Line="273" Column="1" />
+      <File FileName="Assets/Scripts/time/SecondFormBe.cs" Line="149" Column="2" />
+      <File FileName="Assets/Scripts/time/MinuteFormBe.cs" Line="117" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../Assets/Scripts/basil/things/MakeTime.cs" line="132" offsetX="790" offsetY="2358" expression="timeObjDictionary" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.ItemProperties.New_220Unity_220Project PreferredExecutionTarget="Unity.Editor" />
+  <MultiItemStartupConfigurations />
+</Properties>
