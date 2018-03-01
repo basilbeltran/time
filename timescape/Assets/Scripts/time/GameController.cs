@@ -13,19 +13,15 @@ namespace time
 
         void Awake()
         {
-            U.Log("gameManager starting");
+            U.LData("the gameObject holds GameController" , gameObject);
+            U.gm = gameObject;          
             gameManager = GameManager.Instance;
+            U.LData("gameManager starting", this);
             gameManager.holdThis(this);
             GameObject go = GameObject.FindWithTag("static");
-            U.Log(go.name);
-            //try
-            //{
-
-            //}
-            //catch (System.Exception ex)
-            //{
-            //    U.Log(ex.ToString());
-            //}
+            U.LData(go.name, go);
+ 
+            //ExtGameObject.Dump(go); // thats wierd 
 
             gameManager.MakeGame();
         }

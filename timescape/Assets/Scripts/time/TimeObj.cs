@@ -65,7 +65,7 @@ namespace time
             this.tof = tof;
                         
             m_Date = dt;  //make key useful ... Remove for micro usefullnes
-            m_Secs = TimeFactory.SecsSinceMidnight(dt);
+            m_Secs = TMsingleton.SecsSinceMidnight(dt);
             m_EpochSecs = dt.ConvertToUnixTimestamp();
             
             //m_GameObjects = new Dictionary <EtcMgr.TimeType, Transform>();
@@ -81,7 +81,7 @@ namespace time
         {  
                         
             m_Date = dt; 
-            m_Secs = TimeFactory.SecsSinceMidnight(dt);
+            m_Secs = TMsingleton.SecsSinceMidnight(dt);
             m_EpochSecs = dt.ConvertToUnixTimestamp();
         }
         
@@ -328,7 +328,7 @@ namespace time
 
         public Vector3 getPosition()
         {
-            return new Vector3(0, 0, -TimeFactory.SecsSinceMidnight(m_Date) * EtcMgr.secondDepthZ);
+            return new Vector3(0, 0, -TMsingleton.SecsSinceMidnight(m_Date) * EtcMgr.secondDepthZ);
         }    
         
         

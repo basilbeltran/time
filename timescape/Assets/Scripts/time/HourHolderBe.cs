@@ -33,9 +33,7 @@ namespace time
         void Start()
         {
             me = GetComponent<HourHolderBe>();
-            shape = transform.GetChild(0).gameObject;
             doit = shape.GetComponent<HourFormBe>();
-            //if (dump) gameObject.Dump();
         }
 
         private void Update()

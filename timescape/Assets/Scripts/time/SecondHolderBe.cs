@@ -111,8 +111,7 @@ void OnMouseExit()  { U.LData("holder", gameObject); }
 
          if (focus && flingish) Fling("FixedUpdate", Color.black, 12);
         }
-        
-        
+                
         void Update() {
             if (focus && flingish) Fling("Update", Color.blue, 24);
         }
@@ -140,16 +139,12 @@ void OnMouseExit()  { U.LData("holder", gameObject); }
         void OnPostRender() {
             if (focus && flingish) Fling("OnPostRender", Color.red, 15);
         }
-
-void OnRenderImage(RenderTexture src, RenderTexture dest)
-{
-    // Copy the source Render Texture to the destination,
-    // applying the material along the way.
-    Graphics.Blit(src, dest, null);
-
-    if (focus && flingish) Fling("OnRenderImage", Color.red, 20);
-
-}
+        
+        void OnRenderImage(RenderTexture src, RenderTexture dest)
+        {
+            Graphics.Blit(src, dest, null);
+            if (focus && flingish) Fling("OnRenderImage", Color.red, 20);
+        }
 
 
         void OnGUI() {
@@ -182,7 +177,6 @@ void OnRenderImage(RenderTexture src, RenderTexture dest)
             tm.fontSize = size;
             clone.gameObject.SetActive(true);
             clone.velocity = transform.TransformDirection(Vector3.up * size);
-            clone.velocity = transform.TransformDirection(Vector3. * size);
 
         }
         

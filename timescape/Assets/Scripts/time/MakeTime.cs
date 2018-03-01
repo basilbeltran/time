@@ -16,7 +16,6 @@ namespace time
 
     public class MakeTime : BasicBehaviour
     {
-        bool dump = false;
         public static SortedDictionary<DateTime, TimeObj> timeObjDictionary;
         public SortedDictionary<DateTime, TimeObj>.ValueCollection allSecs;
         public SortedDictionary<DateTime, TimeObj>.KeyCollection allDates;
@@ -36,16 +35,16 @@ namespace time
 
 
         private MakeTime()
-        { }
+        { 
+        }
 
 
         public static MakeTime Instance
         {
             get
             {
-                if (_instance == null)
-                    U.Log("issuing new MakeTime singleton");
-                _instance = new MakeTime();
+                if (_instance == null)  _instance = new MakeTime();
+                U.LData("issuing new MakeTime singleton", _instance);
                 return _instance;
             }
         }
@@ -131,12 +130,12 @@ namespace time
 
 
             timer = Stopwatch.StartNew();
-            DateTime now = DateTime.Now;
+            DateTime then = DateTime.Now;
 
-            U.Log("Filling ...  " + Math.Floor(U.ElapsedFunc(start, end).TotalSeconds));
+            U.Log("Filling ...  " + Math.Floor(TMsingleton.ElapsedFunc(start, end).TotalSeconds));
 
 
-            while (timeObjDictionary.Count < U.ElapsedFunc(start, end).TotalSeconds)
+            while (timeObjDictionary.Count < TMsingleton.ElapsedFunc(start, end).TotalSeconds)
             {
                 TimeObj tos = tof.MakeTimeObj(lastProcessedStamp);
 
@@ -156,8 +155,9 @@ namespace time
             allDates = timeObjDictionary.Keys;
 
             timer.Stop();
-            DateTime then = DateTime.Now;
-            U.Log("Timing ...  " + U.ElapsedFunc(now, then).TotalSeconds);
+            DateTime now = DateTime.Now;
+            U.Log("Timing ...  " +  (now - then).Seconds );
+
             U.Log("FillTimeObjDictionary w " + allSecs.Count
                   + " in " + timer.Elapsed.Seconds.ToString());
 

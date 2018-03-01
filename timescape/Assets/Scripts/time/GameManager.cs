@@ -33,9 +33,10 @@ namespace time
             {
                 if (_instance == null)
                 {
-                    U.Log("GameManager Instance initialization");
 
                     _instance = new GameManager();
+                    U.LData("GameManager Instance initialization", _instance);
+
                 }
                 return _instance;
             }
@@ -47,6 +48,7 @@ namespace time
 
             mt = MakeTime.Instance;
             mt.Start();
+            U.LData("after mt.Start()", mt);
             if (dump) Test();
         }
 

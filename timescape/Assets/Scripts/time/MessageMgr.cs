@@ -10,13 +10,11 @@ public class MessageMgr : Singleton<MessageMgr>
     public Transform day, hour, minute, second, clock;
     public Transform gameRoot;
     protected MessageMgr() { }
-    public bool dump = true;
 
 
     private void Start()
     {
         InvokeRepeating("Tick", 1, 1);
-       // hour.Rotate(90, 0, 0);
     }
 
 
@@ -34,20 +32,12 @@ public class MessageMgr : Singleton<MessageMgr>
 
     private void Tick()
     {
-        //NEUTER will remove Ticks past the second signifigance
-        U.now = DateTime.Now.Neuter();
-       
-       
+     
        
         // Delegated implementations
         // Tell everything what time it is and let them react themselves
-        Yell("OnSecond", U.now );
+        Yell("OnSecond", DateTime.Now.Neuter() );
         
-        
-        
-        // Top Down implementations
-        // lookup the time in the dictionary and call into identified time object to react
-        // U.Clock();
     }
 
 

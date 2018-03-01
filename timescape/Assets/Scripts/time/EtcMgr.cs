@@ -76,7 +76,7 @@ public class EtcMgr : Singleton<EtcMgr>
 
         public static Vector3 getPosition(DateTime dt)
         {
-            return new Vector3(0, 0, -TimeFactory.SecsSinceMidnight(dt) * EtcMgr.secondDepthZ);
+            return new Vector3(0, 0, -TMsingleton.SecsSinceMidnight(dt) * EtcMgr.secondDepthZ);
         }  
 
 }

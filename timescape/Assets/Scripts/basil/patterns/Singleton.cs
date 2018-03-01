@@ -1,21 +1,32 @@
 ﻿using UnityEngine;
 using basil.util;
+using System;
+using System.Reflection;
 
 //https://gamedev.stackexchange.com/questions/116009/in-unity-how-do-i-correctly-implement-the-singleton-pattern
 
 
 namespace basil.patterns
 {
-    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public class Singleton<T> : BasicBehaviour where T : BasicBehaviour
     {
         private static T _instance;
 
         private static object _lock = new object();
+        
+        
+        public void 
+       SingletonAwake()
+        {
+            U.LData( MethodBase.GetCurrentMethod().DeclaringType.Name +"\t dumping :"+ dump, _instance );
+        }
 
         public static T Instance
-        {
+        {            
             get
-            {
+            {  
+            Debug.Log("   ");
+            
                 if (applicationIsQuitting)
                 {
                     U.LWarning("[Singleton] Instance '" + typeof(T) +
@@ -28,19 +39,26 @@ namespace basil.patterns
                 {
                     if (_instance == null)
                     {
-                        _instance = (T)FindObjectOfType(typeof(T));
-
-                        if (FindObjectsOfType(typeof(T)).Length > 1)
+                        UnityEngine.Object[] oa = FindObjectsOfType(typeof(T));
+                        if (oa.Length > 1)
                         {
                             U.LError("[Singleton] Something went really wrong " +
                                 " - there should never be more than 1 singleton!" +
-                                " Reopening the scene might fix it.");
+                                " Destroying something now. Cross fingers.");
+                               DestroyRogueImposter(oa[1]);
                             return _instance;
                         }
 
+
+                        _instance = (T)FindObjectOfType(typeof(T));
+
+
+
+
                         if (_instance == null)
                         {
-                            GameObject singleton = new GameObject();
+                            GameObject singleton = new GameObject( );
+                            singleton.transform.parent = U.gm.transform;
                             _instance = singleton.AddComponent<T>();
                             singleton.name = "(singleton) " + typeof(T).ToString();
 
@@ -60,6 +78,15 @@ namespace basil.patterns
                     return _instance;
                 }
             }
+        }
+
+
+        private static void DestroyRogueImposter(UnityEngine.Object SingletonWithoutProperPaperwork)
+        {
+            if (Application.isPlaying)
+                Destroy(SingletonWithoutProperPaperwork);
+            else
+                DestroyImmediate(SingletonWithoutProperPaperwork);
         }
 
         private static bool applicationIsQuitting = false;

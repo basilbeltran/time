@@ -1,15 +1,25 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using time; //todo fix this 
+using System.Reflection;
 
 namespace basil.util
 {
 
 public static class ExtDateTime
 {
+    static bool dump = true;
 
+static ExtDateTime()
+{
+ dump = U.extensionsDump;
+ U.Log(MethodBase.GetCurrentMethod().DeclaringType.Name +"\t dumping :"+ dump );
+}
+    
     private static readonly DateTime 
 epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
 
 
 
@@ -29,9 +39,19 @@ epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 }
 
 
+public static TimeSpan SinceEpoch(this DateTime dt) 
+{
+    return   dt - epoch;
+}
 
+
+public static TimeSpan SinceAD(this DateTime dt) 
+{
+    return DateTime.MinValue - dt ;
+}
 
         // allow for pain free comparison of DateTimes
+        // return a stamp for the previous "top of the hour"
         public static DateTime PreviousHour(this DateTime dt)
         {   
         
@@ -51,10 +71,6 @@ epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         }
     
     
-        public static TimeSpan AD(this DateTime dt) 
-        {
-            return U.ElapsedMeth(DateTime.MinValue, dt);
-        }
 
 
         public static string Dump (this DateTime dt)

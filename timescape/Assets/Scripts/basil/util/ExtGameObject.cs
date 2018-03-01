@@ -3,16 +3,25 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
 using basil.util;
+using System.Reflection;
 
 //namespace basil.util
 //{
-public static class ExtGameObject
+public static class ExtGameObject  
     {
+    static bool dump = true;
 
+    static ExtGameObject()
+    {
+     dump = U.extensionsDump;
+     U.LData(MethodBase.GetCurrentMethod().DeclaringType.Name 
+     +"\t dumping :"+ dump, new UnityEngine.Object()
+     );
+    }
 
          // go.DeactivateUp will deactivate all ancestors                
          public static void DeactivateUp( this GameObject go)
-        {
+        {   
             go.transform.DeactiveUp();
         }    
                            
@@ -67,20 +76,26 @@ public static class ExtGameObject
 
         public static void SetPlaceInTime(this GameObject go, DateTime dt)
         {
-            go.transform.position = new Vector3(0,0, EtcMgr.secondDepthZ * TimeFactory.ADSecs(dt) );
+            go.transform.position = new Vector3(go.transform.position.x,
+                                                go.transform.position.y, 
+                                                EtcMgr.secondDepthZ * TMsingleton.ADSecs(dt) );
         }
 
-
+        // this belongs in a scene specific class
         public static GameObject[] GetRoots(this GameObject go)
         {
             return SceneManager.GetActiveScene().GetRootGameObjects();
         }
 
+        public static GameObject  GetRoot(this GameObject go)
+        {
+            return go.transform.root.gameObject;
+        }
 
         public static void Dump(this GameObject go)
         {
-            string  _s = Status(go);
-                    _s += State(go);
+            string  _s =    Status(go);
+                    _s +=   State(go);
             Debug.Log(_s);
         }
 

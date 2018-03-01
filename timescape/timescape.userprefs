@@ -1,14 +1,24 @@
 ﻿<Properties StartupConfiguration="{1E89F590-BF4B-5EFB-9302-A0B6EDE82563}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/basil/util/KillHostIn.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/time/GameController.cs">
     <Files>
-      <File FileName="Assets/Scripts/time/MakeTime.cs" Line="103" Column="14" />
-      <File FileName="Assets/Scripts/basil/util/U.cs" Line="337" Column="87" />
-      <File FileName="Assets/Scripts/time/TimeObj.cs" Line="97" Column="36" />
-      <File FileName="Assets/Scripts/time/MinuteHolderBe.cs" Line="152" Column="16" />
-      <File FileName="Assets/Scripts/time/MinuteFormBe.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/time/SecondHolderBe.cs" Line="182" Column="32" />
+      <File FileName="Assets/Scripts/basil/patterns/Singleton.cs" Line="59" Column="62" />
+      <File FileName="Assets/Scripts/time/TMsingleton.cs" Line="10" Column="37" />
+      <File FileName="Assets/Scripts/basil/util/U.cs" Line="35" Column="50" />
+      <File FileName="Assets/Scripts/time/TimeObj.cs" Line="140" Column="9" />
+      <File FileName="Assets/Scripts/time/MinuteHolderBe.cs" Line="5" Column="1" />
+      <File FileName="Assets/Scripts/time/MinuteFormBe.cs" Line="12" Column="15" />
+      <File FileName="Assets/Scripts/time/SecondHolderBe.cs" Line="114" Column="9" />
       <File FileName="Assets/Scripts/time/SecondFormBe.cs" Line="13" Column="25" />
-      <File FileName="Assets/Scripts/basil/util/KillHostIn.cs" Line="30" Column="6" />
+      <File FileName="Assets/Scripts/basil/util/ProjectileRider.cs" Line="5" Column="47" />
+      <File FileName="Assets/Scripts/basil/Act/RigidBodyCtl.cs" Line="14" Column="36" />
+      <File FileName="Assets/Scripts/basil/Act/MeshCtl.cs" Line="15" Column="24" />
+      <File FileName="Assets/Scripts/basil/Act/EventLauncher.cs" Line="81" Column="1" />
+      <File FileName="Assets/Scripts/basil/patterns/BasicBehaviour.cs" Line="68" Column="64" />
+      <File FileName="Assets/Scripts/basil/util/ExtGameObject.cs" Line="19" Column="8" />
+      <File FileName="Assets/Scripts/time/GameManager.cs" Line="49" Column="15" />
+      <File FileName="Assets/Scripts/time/GameController.cs" Line="17" Column="30" />
+      <File FileName="Assets/Scripts/time/MakeTime.cs" Line="72" Column="30" />
+      <File FileName="Assets/Scripts/time/EtcMgr.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

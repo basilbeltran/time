@@ -14,19 +14,33 @@ using basil.util;
 
 public static class U
 {
+
+public static GameObject gm; 
       
    public static DateTime 
-now;
+birthdate;
   
-    static bool 
+    public static bool 
 dump = true;
+
+    public static bool 
+extensionsDump = true;
         
+static U()
+{
+    TMsingleton.gmStart = birthdate = DateTime.Now;
+    
+    U.LData(MethodBase.GetCurrentMethod().DeclaringType.Name 
+            +"\t global dumping is :"+ dump 
+            +"\t extensions is :"+ extensionsDump 
+            , gm);
+}        
 
     private static System.Random 
 random = new System.Random();
 
     static int 
-GetRandomInt(){ random.Next(); random.Next();  return random.Next(); }
+GetRandomInt(){ random.Next(); random.Next();  return random.Next(0, 100); }
         
 
     public static string 
@@ -53,22 +67,7 @@ getRandomNumber = () => new System.Random().Next(1, 10);
 
 // Time related utilities
 
-//NB: the end follows the beginning, except in the calculation
 
-        public static TimeSpan 
-ElapsedMeth(DateTime from, DateTime to){ return to - from; }
-
-
-        public static double 
-ElapsedDblMeth(DateTime from, DateTime to) { return (to - from).TotalSeconds; }
-
-        
-        public static Func<DateTime, DateTime, double> 
-ElapsedDblFunc = (from , to ) => (to - from).TotalSeconds;
-
-
-        public static Func<DateTime, DateTime, TimeSpan>
-ElapsedFunc = (from , to ) => (to - from);
 
 
 
@@ -104,7 +103,7 @@ public static Predicate<TimeObj> pIsHour = (to) => to.isHour;
 public static Predicate<TimeObj> pIsDay = (to) => to.isDay;
 
 // one way to find thisVeryMoment
-public static Predicate<TimeObj> pNow = (to) => to.m_Secs == TimeFactory.SecsSinceMidnight(DateTime.Now);
+public static Predicate<TimeObj> pNow = (to) => to.m_Secs == TMsingleton.SecsSinceMidnight(DateTime.Now);
 
 
 //show details
@@ -194,19 +193,18 @@ Clock() {  MakeTime.ToDtTo(U.pDTthisVeryMoment, U.aShine );  }
 /// </summary>
 /// <returns>The log.</returns>
 /// <param name="message">Message.</param>
-
         public static void Log(string message) { Loger("0", message, null); }        // log 
         public static void LError(string message) { Loger("1", message, null); }        // log error
         public static void LWarning(string message) { Loger("2", message, null); }        // log warning
-        public static void LData(string message, UnityEngine.Object o) { Loger("3", message, o); }  // log debug
+        public static void LData(string message, System.Object o) { Loger("3", message, o); }  // log debug
 
-        public static void Loger(string level, string message, UnityEngine.Object obj)
+        public static void Loger(string level, string message, System.Object obj)
         {
 
             switch (level)
             {
                 case "0":
-                    UnityEngine.Debug.Log(TimeFactory.t() 
+                    UnityEngine.Debug.Log("@" + DateTime.Now.ToLongTimeString()
                                           + "-" + ClassMethodString(4) 
                                           + "\n" + message);
                     break;
@@ -222,10 +220,17 @@ Clock() {  MakeTime.ToDtTo(U.pDTthisVeryMoment, U.aShine );  }
                     break;
 
                 case "3":
-            UnityEngine.Debug.Log(TimeFactory.t() 
-                                          + "-" + ClassMethodString(4) 
-                                          + "\n" + message
-                                          + "\n" + obj.Status());
+            try
+                {
+                    UnityEngine.Debug.Log("+"+ (DateTime.Now - TMsingleton.gmStart).Milliseconds
+                                                  + "-" + ClassMethodString(4)
+                                                  + "\n" + message
+                                                  + "\n" + obj.Status());
+                }
+                catch (Exception ex)
+                {
+                    U.Log(ex.ToString()) ;
+                }
               
                     break;
 
@@ -234,13 +239,22 @@ Clock() {  MakeTime.ToDtTo(U.pDTthisVeryMoment, U.aShine );  }
         }
 
 
-        public static string Status(this UnityEngine.Object o)
+        public static string Status(this System.Object o)
         {
-            string typ = o.GetType().ToString();
-            int index = typ.LastIndexOf(".");
-            string _s = "  " + typ.Substring(index);
-            //TODO create case
-            return _s;
+        string _s = "";
+        
+            try
+            {
+                string typ = o.GetType().ToString();
+                int index = typ.LastIndexOf(".");
+                 _s = "  " + typ.Substring(index);
+            }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.Log( ex.ToString() );
+            }
+
+        return _s;
         }
 
 

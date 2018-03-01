@@ -387,7 +387,7 @@
     <Compile Include="Assets\Scripts\time\MinuteHolderBe.cs" />
     <Compile Include="Assets\Scripts\time\SecondFormBe.cs" />
     <Compile Include="Assets\Scripts\time\SecondHolderBe.cs" />
-    <Compile Include="Assets\Scripts\time\TimeFactory.cs" />
+    <Compile Include="Assets\Scripts\time\TMsingleton.cs" />
     <Compile Include="Assets\Scripts\time\TimeListener.cs" />
     <Compile Include="Assets\Scripts\time\TimeObj.cs" />
     <Compile Include="Assets\Scripts\time\TimeObjDay.cs" />
@@ -398,6 +398,12 @@
     <Compile Include="Assets\Scripts\WebRequest.cs" />
     <Compile Include="Assets\Scripts\basil\util\ProjectileRider.cs" />
     <Compile Include="Assets\Scripts\basil\util\FindObjectsOfTypeAll.cs" />
+    <Compile Include="Assets\Scripts\basil\Act\RigidBodyCtl.cs" />
+    <Compile Include="Assets\Scripts\basil\Act\MeshCtl.cs" />
+    <Compile Include="Assets\Scripts\basil\Act\EventLauncher.cs" />
+    <Compile Include="Assets\Scripts\basil\util\GameSettings.cs" />
+    <Compile Include="Assets\Scripts\time\UTMsingleton.cs" />
+    <Compile Include="Assets\Scripts\basil\patterns\SceneCtl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Cinemachine\ReleaseNotes.txt" />
